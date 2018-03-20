@@ -50,9 +50,11 @@ class PlayerClass {
         static const int MAX_2D6 = 11;
         static const int MAX_PWR = 11;
         static const int MAX_WILL = 11;
+        static const int NUM_HUMAN_TYPES = 2;
         static const int w = -1;
         static const int k = 0;
         static const int STATS[MAX_STATS][MAX_TYPES];
+        static const int INIT_WPN_SKILL[NUM_HUMAN_TYPES][Weapon::NUM_DIFF_WEAPONS];
         static const int IMPACT[MAX_2D6][MAX_PWR];  
         static const int CRITICAL_WOUND[MAX_2D6][MAX_WILL];
 
@@ -327,8 +329,25 @@ class PlayerClass {
 
         bool ImprovedSkill(int improvement);
 
+        string WeaponName(Weapon* weapon);
+
+        PlayerClass& operator=(const PlayerClass &p); 
+
+        bool operator==(const PlayerClass &p) const;
+
+        bool operator!=(const PlayerClass &p) const;
+
+        bool operator<=(const PlayerClass &p) const;
+
+        bool operator<(const PlayerClass &p) const;
+
+        bool operator>=(const PlayerClass &p) const;
+
+        bool operator<(const PlayerClass &p) const;
+
         /*
-        Narrative: Adds the player's statistics in a human readable format to a stream
+        Narrative: Adds the player's statistics in a human readable format to a 
+        stream
         Pre-condition: None
         Post-condition: Player's statistics have been returned 
         */
@@ -337,6 +356,9 @@ class PlayerClass {
     private:
         // Array of all of the stats a player has
         int playerStats[MAX_STATS];     
+
+        // Array of the player's weapon skill values
+        int allWeaponSkill[Weapon::NUM_DIFF_WEAPONS];
 
         string name;    // Player's name
         int type;       // Player's type

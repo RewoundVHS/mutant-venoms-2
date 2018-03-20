@@ -23,6 +23,13 @@ const int PlayerClass::STATS[MAX_STATS][MAX_TYPES] = {
     { 0,  0,  0,  0,  0},    // Active
     { 0,  0,  0,  0,  0}};   // Direction
 
+const int PlayerClass::INIT_WPN_SKILL[NUM_HUMAN_TYPES][NUM_DIFF_WEAPONS] = {
+//   Hu  Sc
+    { 1,  1},   // GRENADE
+    { 1,  1},   // HVYWPN
+    { 1, 11},   // PISTOL
+    { 6,  1}};  // RIFLE
+
 const int PlayerClass::IMPACT[MAX_2D6][MAX_PWR] = {   
 //                  Power Rating
 //    12  11  10   9   8   7   6   5   4   3   2    Die Roll
@@ -66,6 +73,12 @@ PlayerClass::PlayerClass(string initName, PlayerType initType) {
 
     for (int i=0; i<MAX_STATS; i++) {
         playerStats[i] = STATS[i][type];
+    }
+    
+    if (Human()) {
+        for (int i=0; i<NUM_DIFF_WEAPONS; i++) {
+             allWeaponSkill[i] = INIT_WPN_SKILL[i][type];
+        }
     }
 }
 
@@ -391,11 +404,9 @@ bool PlayerClass::CriticalWound() {
 Weapon* PlayerClass::DropWeapon() {
     Weapon* dropped;
 
-    if (IsActive() && HasWeapon()) {
+    if (IsActive()) {
         dropped = playerWeapon;
         playerWeapon = NULL;
-    } else {
-        dropped = NULL;
     }
     return dropped;
 }
@@ -414,5 +425,26 @@ Weapon* PlayerClass::GrabWeapon(Weapon* weapon) {
 }
 
 bool PlayerClass::ImprovedSkill(int improvement) {    
+    
+}
+
+// Convert the string to all uppercase then compare
+bool PlayerClass::operator==(const PlayerClass &p) const {
+    string upperName = p.Name() 
+}
+
+bool PlayerClass::operator!=(const PlayerClass &p) const {
+
+}
+
+bool PlayerClass::operator<=(const PlayerClass &p) const {
+
+}
+
+bool PlayerClass::operator<(const PlayerClass &p) const {
+
+}
+
+bool PlayerClass::operator>=(const PlayerClass &p) const {
 
 }
