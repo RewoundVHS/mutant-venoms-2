@@ -82,9 +82,15 @@ PlayerClass::PlayerClass() {
 PlayerClass::PlayerClass(string initName, PlayerType initType) {
     if (initName.size() <= 0)
         name = DEFAULT_NAME;
-    else
+    else {
         name = initName;
-
+        stringstream ss(name);
+        string word;
+        while (ss >> word) {
+            name += (word + " ");
+        }
+        name = name.substr(0, name.size()-1);
+    }
     if (initType >= HUNTER && initType < MAX_TYPES)
         type = initType;
     else
@@ -415,7 +421,20 @@ int PlayerClass::HitDamage() const {
 }
 
 int PlayerClass::Impact() const{
-
+    int impact = 0;
+    int power;
+    if (IsActive()) {
+        int roll = Dice::Roll(name, GameSpace::IMPACT, 2, 6);
+        if (roll >= 2 && roll <= 12) { 
+            if (HasWeapon())
+                power = playerWeapon->WeaponPower();
+            else if (playerStats[POWER] >= 2)
+                power = playerStats[POWER];
+            
+        impact = IMPACT[roll][power]; 
+        }
+    }
+    return impact;
 }
 
 bool PlayerClass::CriticalWound() {
@@ -443,11 +462,14 @@ bool PlayerClass::CriticalWound() {
 }
 
 string PlayerClass::WeaponName() const {
-
+    return playerWeapon->WeaponName();
 }
 
 int PlayerClass::WeaponSkill() const {
-
+    int skill = 0;
+    if (HasWeapon())
+        skill = playerStats[CUR_WPN_SKILL];
+    return skill;
 }
 
 Weapon* PlayerClass::DropWeapon() {
