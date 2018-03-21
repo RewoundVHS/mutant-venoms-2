@@ -18,47 +18,66 @@ const int PlayerClass::STATS[MAX_STATS][MAX_TYPES] = {
     { 1,  3,  3,  2,  2},    // Physical damage rolls
     { 6,  6,  6,  6,  6},    // Faces on damage roll dice
     { 1,  9,  9,  8, 11},    // Defense value
+    { 0,  0,  0,  0,  0},    // Current weapon skill
     {-1, -1, -1, -1, -1},    // Row
     {-1, -1, -1, -1, -1},    // Col
     { 0,  0,  0,  0,  0},    // Active
     { 0,  0,  0,  0,  0}};   // Direction
 
-const int PlayerClass::INIT_WPN_SKILL[NUM_HUMAN_TYPES][NUM_DIFF_WEAPONS] = {
+const int PlayerClass::INIT_WPN_SKILL[Weapon::NUM_DIFF_WEAPONS][NUM_HUMAN_TYPES] = {
 //   Hu  Sc
-    { 1,  1},   // GRENADE
-    { 1,  1},   // HVYWPN
-    { 1, 11},   // PISTOL
-    { 6,  1}};  // RIFLE
+    { 0,  0},   // GRENADE
+    { 0,  0},   // HVYWPN
+    { 0, 10},   // PISTOL
+    { 5,  0}};  // RIFLE
 
 const int PlayerClass::IMPACT[MAX_2D6][MAX_PWR] = {   
 //                  Power Rating
-//    12  11  10   9   8   7   6   5   4   3   2    Die Roll
-    {  w,  w,  w,  w,  w,  w,  w,  w,  w,  w, 10},  // 12
-    {  w,  w,  w,  w,  w,  w,  w,  w,  w, 10,  9},  // 11
-    {  w,  w,  w,  w,  w,  w,  w,  w, 10,  9,  8},  // 10
-    {  w,  w,  w,  w,  w,  w,  w, 10,  9,  8,  7},  // 9
-    {  w,  w,  w,  w,  w,  w, 10,  9,  8,  7,  6},  // 8
-    {  w,  w,  w,  w,  w, 10,  9,  8,  7,  6,  5},  // 7
-    {  w,  w,  w,  w, 10,  9,  8,  7,  6,  5,  4},  // 6
-    {  w,  w,  w, 10,  9,  8,  7,  6,  5,  4,  3},  // 5
-    {  w,  w, 10,  9,  8,  7,  6,  5,  4,  3,  2},  // 4
-    {  w, 10,  9,  8,  7,  6,  5,  4,  3,  2,  1},  // 3
-    { 10,  9,  8,  7,  6,  5,  4,  3,  2,  1,  0}}; // 2
+//    0   1   2   3   4   5   6   7   8   9  10  11  12    Die Roll
+    { 0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0},  // 0
+    { 0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0},  // 1
+    { 0,  0,  0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10},  // 2
+    { 0,  0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10,  w},  // 3
+    { 0,  0,  2,  3,  4,  5,  6,  7,  8,  9, 10,  w,  w},  // 4
+    { 0,  0,  3,  4,  5,  6,  7,  8,  9, 10,  w,  w,  w},  // 5
+    { 0,  0,  4,  5,  6,  7,  8,  9, 10,  w,  w,  w,  w},  // 6
+    { 0,  0,  5,  6,  7,  8,  9, 10,  w,  w,  w,  w,  w},  // 7
+    { 0,  0,  6,  7,  8,  9, 10,  w,  w,  w,  w,  w,  w},  // 8
+    { 0,  0,  7,  8,  9, 10,  w,  w,  w,  w,  w,  w,  w},  // 9
+    { 0,  0,  8,  9, 10,  w,  w,  w,  w,  w,  w,  w,  w},  // 10
+    { 0,  0,  9, 10,  w,  w,  w,  w,  w,  w,  w,  w,  w},  // 11
+    { 0,  0, 10,  w,  w,  w,  w,  w,  w,  w,  w,  w,  w}}; // 12
 
 const int PlayerClass::CRITICAL_WOUND[MAX_2D6][MAX_WILL] = {
 //                  Willpower Rating           
-//    2   3   4   5   6   7   8   9  10  11  12    Die Roll
-    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},  // 2
-    { k, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},  // 3
-    { k,  k, -1, -1, -1, -1, -1, -1, -1, -1, -1},  // 4
-    { k,  k,  k, -1, -1, -1, -1, -1, -1, -1, -1},  // 5
-    { k,  k,  k,  k, -1, -1, -1, -1, -1, -1, -1},  // 6
-    { k,  k,  k,  k,  k, -1, -1, -1, -1, -1, -1},  // 7 
-    { k,  k,  k,  k,  k,  k, -1, -1, -1, -1, -1},  // 8  
-    { k,  k,  k,  k,  k,  k,  k, -1, -1, -1, -1},  // 9  
-    { k,  k,  k,  k,  k,  k,  k,  k, -1, -1, -1},  // 10 
-    { k,  k,  k,  k,  k,  k,  k,  k,  k, -1, -1},  // 11
-    { k,  k,  k,  k,  k,  k,  k,  k,  k,  k, -1}}; // 12
+//    0   1   2   3   4   5   6   7   8   9  10  11  12    Die Roll
+    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},  // 0
+    { k, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},  // 1
+    { k,  k, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},  // 2
+    { k,  k,  k, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},  // 3
+    { k,  k,  k,  k, -1, -1, -1, -1, -1, -1, -1, -1, -1},  // 4
+    { k,  k,  k,  k,  k, -1, -1, -1, -1, -1, -1, -1, -1},  // 5
+    { k,  k,  k,  k,  k,  k, -1, -1, -1, -1, -1, -1, -1},  // 6
+    { k,  k,  k,  k,  k,  k,  k, -1, -1, -1, -1, -1, -1},  // 7 
+    { k,  k,  k,  k,  k,  k,  k,  k, -1, -1, -1, -1, -1},  // 8  
+    { k,  k,  k,  k,  k,  k,  k,  k,  k, -1, -1, -1, -1},  // 9  
+    { k,  k,  k,  k,  k,  k,  k,  k,  k,  k, -1, -1, -1},  // 10 
+    { k,  k,  k,  k,  k,  k,  k,  k,  k,  k,  k, -1, -1},  // 11
+    { k,  k,  k,  k,  k,  k,  k,  k,  k,  k,  k,  k, -1}}; // 12
+
+PlayerClass::PlayerClass() {
+    name = DEFAULT_NAME;
+    type = DEFAULT_TYPE;
+
+    for (int i=0; i<MAX_STATS; i++) {
+        playerStats[i] = STATS[i][type];
+    }
+
+    for (int i=0; i<Weapon::NUM_DIFF_WEAPONS; i++) {
+         allWeaponSkill[i] = INIT_WPN_SKILL[i][type];
+    }
+    // GrabWeapon(DEFAULT_HUNTER_WEAPON);
+}
 
 PlayerClass::PlayerClass(string initName, PlayerType initType) {
     if (initName.size() <= 0)
@@ -76,8 +95,17 @@ PlayerClass::PlayerClass(string initName, PlayerType initType) {
     }
     
     if (Human()) {
-        for (int i=0; i<NUM_DIFF_WEAPONS; i++) {
+        for (int i=0; i<Weapon::NUM_DIFF_WEAPONS; i++) {
              allWeaponSkill[i] = INIT_WPN_SKILL[i][type];
+        }
+        
+        switch (type) { 
+            case HUNTER:
+                // GrabWeapon(DEFAULT_HUNTER_WEAPON);
+                break;
+            case SCAVENGER:
+                // GrabWeapon(DEFAULT_SCAVENGER_WEAPON);
+                break;
         }
     }
 }
@@ -369,11 +397,24 @@ int PlayerClass::UpdateDefense(int amount) {
     return playerStats[DEFENSE];
 }
 
-int PlayerClass::HitScore() {
+int PlayerClass::HitScore() const {
     return Dice::Roll(name, GameSpace::HITSCORE, 2, 6); 
 }
 
-int PlayerClass::Impact() {
+int PlayerClass::HitDamage() const {
+    int damage = 0;
+
+    if (IsActive()) {
+        if (HasWeapon()) {
+             // damage = playerStats[CUR_WPN_SKILL] + /*damage value of wpn*/;
+        } else {
+            damage = playerStats[POWER] + RollPhysDam();
+        }
+    }
+    return damage;
+}
+
+int PlayerClass::Impact() const{
 
 }
 
@@ -401,6 +442,14 @@ bool PlayerClass::CriticalWound() {
     return IsAlive();
 }
 
+string PlayerClass::WeaponName() const {
+
+}
+
+int PlayerClass::WeaponSkill() const {
+
+}
+
 Weapon* PlayerClass::DropWeapon() {
     Weapon* dropped;
 
@@ -411,7 +460,7 @@ Weapon* PlayerClass::DropWeapon() {
     return dropped;
 }
 
-bool PlayerClass::HasWeapon() {
+bool PlayerClass::HasWeapon() const {
     return(playerWeapon != NULL);
 }
 
@@ -428,23 +477,50 @@ bool PlayerClass::ImprovedSkill(int improvement) {
     
 }
 
-// Convert the string to all uppercase then compare
+string PlayerClass::MakeUpper(string str) const {
+    string makeUpper = str;
+    transform(makeUpper.begin(), makeUpper.end(), makeUpper.begin(), ::toupper);
+    return makeUpper;
+}
+
 bool PlayerClass::operator==(const PlayerClass &p) const {
-    string upperName = p.Name() 
+    string pUpper = MakeUpper(p.Name());
+    string thisUpper = MakeUpper(Name());
+
+    return (thisUpper == pUpper);   
 }
 
 bool PlayerClass::operator!=(const PlayerClass &p) const {
+    string pUpper = MakeUpper(p.Name());
+    string thisUpper = MakeUpper(Name());
 
+    return (thisUpper != pUpper);   
 }
 
 bool PlayerClass::operator<=(const PlayerClass &p) const {
+    string pUpper = MakeUpper(p.Name());
+    string thisUpper = MakeUpper(Name());
 
+    return (thisUpper <= pUpper);   
 }
 
 bool PlayerClass::operator<(const PlayerClass &p) const {
+    string pUpper = MakeUpper(p.Name());
+    string thisUpper = MakeUpper(Name());
 
+    return (thisUpper < pUpper);   
 }
 
 bool PlayerClass::operator>=(const PlayerClass &p) const {
+    string pUpper = MakeUpper(p.Name());
+    string thisUpper = MakeUpper(Name());
 
+    return (thisUpper >= pUpper);   
+}
+
+bool PlayerClass::operator>(const PlayerClass &p) const {
+    string pUpper = MakeUpper(p.Name());
+    string thisUpper = MakeUpper(Name());
+
+    return (thisUpper > pUpper);   
 }

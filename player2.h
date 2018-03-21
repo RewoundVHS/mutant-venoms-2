@@ -35,6 +35,7 @@ class PlayerClass {
             DAMAGE_ROLLS,
             ROLL_FACES,
             DEFENSE,
+            CUR_WPN_SKILL,
             ROW,
             COL,
             ACTIVE,
@@ -45,18 +46,20 @@ class PlayerClass {
         static const string DEFAULT_NAME; 
         static const PlayerType DEFAULT_TYPE;
         static const int MAX_TYPES = 5;
-        static const int MAX_STATS = 14;
+        static const int MAX_STATS = 15;
         static const int DEFAULT_POS = -1;
-        static const int MAX_2D6 = 11;
-        static const int MAX_PWR = 11;
-        static const int MAX_WILL = 11;
+        static const int MAX_2D6 = 13;
+        static const int MAX_PWR = 13;
+        static const int MAX_WILL = 13;
         static const int NUM_HUMAN_TYPES = 2;
         static const int w = -1;
         static const int k = 0;
         static const int STATS[MAX_STATS][MAX_TYPES];
-        static const int INIT_WPN_SKILL[NUM_HUMAN_TYPES][Weapon::NUM_DIFF_WEAPONS];
+        static const int INIT_WPN_SKILL[Weapon::NUM_DIFF_WEAPONS][NUM_HUMAN_TYPES];
         static const int IMPACT[MAX_2D6][MAX_PWR];  
         static const int CRITICAL_WOUND[MAX_2D6][MAX_WILL];
+
+        PlayerClass();
 
     public:
         /*
@@ -315,23 +318,29 @@ class PlayerClass {
         
         int UpdateDefense(int amount);
 
-        int HitScore();
+        int HitScore() const;
 
-        int Impact();
+        int HitDamage() const;
+
+        int Impact() const;
 
         bool CriticalWound();
 
+        string WeaponName() const;
+
+        int WeaponSkill() const;
+
         Weapon* DropWeapon();
 
-        bool HasWeapon();
+        bool HasWeapon() const;
 
         Weapon* GrabWeapon(Weapon* weapon);
 
         bool ImprovedSkill(int improvement);
 
-        string WeaponName(Weapon* weapon);
-
         PlayerClass& operator=(const PlayerClass &p); 
+
+        string MakeUpper(string str) const;
 
         bool operator==(const PlayerClass &p) const;
 
@@ -343,7 +352,7 @@ class PlayerClass {
 
         bool operator>=(const PlayerClass &p) const;
 
-        bool operator<(const PlayerClass &p) const;
+        bool operator>(const PlayerClass &p) const;
 
         /*
         Narrative: Adds the player's statistics in a human readable format to a 
