@@ -6,6 +6,7 @@
 
 #include <string>
 #include <iostream>
+#include <sstream>
 #include "gamespace.h"
 #include "dice.h"
 #include "wpn.h"

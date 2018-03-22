@@ -113,6 +113,8 @@ PlayerClass::PlayerClass(string initName, PlayerType initType) {
                 // GrabWeapon(DEFAULT_SCAVENGER_WEAPON);
                 break;
         }
+    } else {
+        playerWeapon = NULL;
     }
 }
 
@@ -412,7 +414,7 @@ int PlayerClass::HitDamage() const {
 
     if (IsActive()) {
         if (HasWeapon()) {
-             // damage = playerStats[CUR_WPN_SKILL] + /*damage value of wpn*/;
+            damage = playerStats[CUR_WPN_SKILL] + playerWeapon->RollWeaponDamage(Name());
         } else {
             damage = playerStats[POWER] + RollPhysDam();
         }
@@ -489,14 +491,24 @@ bool PlayerClass::HasWeapon() const {
 Weapon* PlayerClass::GrabWeapon(Weapon* weapon) {
     Weapon* oldWeapon = playerWeapon;
 
-    if (IsActive() && Human())
+    if (IsActive() && Human()) {
         playerWeapon = weapon;
-    // If player has skill with weapon, skill is used
-    // Otherwise weapon skill is set to 1
+        if (allWeaponSkill[playerWeapon->WeaponType()] = 0) {
+            allWeaponSkill[playerWeapon->WeaponType()] = 1;
+            playerStats[CUR_WPN_SKILL] = allWeaponSkill[playerWeapon->WeaponType()];
+        }
+    }
+    return oldWeapon;
 }
 
 bool PlayerClass::ImprovedSkill(int improvement) {    
-    
+    bool improved = false;
+    if (IsActive() && HasWeapon() && improvement >= 0) {
+        allWeaponSkill[playerWeapon->WeaponType()] += improvement; 
+        playerStats[CUR_WPN_SKILL] = allWeaponSkill[playerWeapon->WeaponType()];
+        improved = true;
+    } 
+    return improved;
 }
 
 string PlayerClass::MakeUpper(string str) const {
