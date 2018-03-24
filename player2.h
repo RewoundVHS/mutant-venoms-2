@@ -69,6 +69,38 @@ class PlayerClass {
         PlayerClass(string initName = DEFAULT_NAME, PlayerType initType = DEFAULT_TYPE);
 
         /*
+        Narrative: Calls CopyIntoMe on the given instance of a player class to 
+        copy into this instance
+        Pre-condition: None
+        Post-condition: The player class has been copied into this player class
+        */
+        PlayerClass(const PlayerClass &p);
+
+        /*
+        Narrative: Checks to see if this instance is not the same as the given 
+        player then calls CopyIntoMe on the given instance of a player class to 
+        copy into this instance
+        Pre-condition: None
+        Post-condition: The player class has been copied into this player class
+        */
+        PlayerClass& operator=(const PlayerClass &p);
+
+        /*
+        Narrative: Copies all of the data from the given player into the current
+        player
+        Pre-condition: None
+        Post-condition: The given player's data has been copied into this player
+        */
+        void CopyIntoMe(const PlayerClass &p);
+
+        /*
+        Narrative: This destructor deallocates the dynamic memory for playerWeapon
+        Pre-condition: None
+        Post-condition: The dynamic memory has been properly deallocated
+        */
+        ~PlayerClass();
+
+        /*
         Narrative: Returns the player's name
         Pre-condition: Player's name has been initialized
         Post-condition: Player's name has been returned
@@ -263,8 +295,19 @@ class PlayerClass {
         */
         bool Heal();
         
+        /*
+        Narrative: A given amount is subtracted from the player's willpower, if
+        the willpower drops below zero it is set to zero
+        Pre-condition: None
+        Post-condition: The amount has subtracted from the willpower
+        */
         int WillDamage(int willDmg);
 
+        /*
+        Narrative: A given amount is added to the player's willpower
+        Pre-condition: None
+        Post-condition: The amount has been added to the willpower
+        */
         int AddWill(int addWill);
 
         /*
@@ -317,42 +360,157 @@ class PlayerClass {
         */
         bool SetDir(DirType newDir);
         
+        /*
+        Narrative: An amount is added to or subtracted from the player's defense
+        value, if defense drops below zero it is set to zero
+        Pre-condition: None
+        Post-condition: The amount has been added to or subtracted from defense
+        */
         int UpdateDefense(int amount);
 
+        /*
+        Narrative: Performs a HitScore roll
+        Pre-condition: Dice class has been properly linked
+        Post-condition: HitScore roll is returned
+        */
         int HitScore() const;
 
+        /*
+        Narrative: Returns the amount of damage done by an active player. This 
+        damage value is found either by weapon damage or power if the player 
+        does not have a weapon. 
+        Pre-condition: Weapon class has been properly linked
+        Post-condition: The damage is returned
+        */
         int HitDamage() const;
 
+        /*
+        Narrative: Makes an impact roll for an active player then gets their 
+        power from either weapon damage or power if they do not have a weapon. 
+        These two values are used to index the impact table which returns the 
+        result.
+        Pre-condition: Dice class and weapon class have been properly linked.
+        Post-condition: Impact table result has been returned
+        */
         int Impact() const;
 
+        /*
+        Narrative: The player takes a critical wound which slows them for half 
+        of their speed, then a critical wound roll and their willpower are 
+        used to index the critical wound table. The player either takes 1 
+        damage to willpower or is killed.
+        Pre-condition: None
+        Post-condition: The player is either killed or takes 1 damage to willpower.
+        */
         bool CriticalWound();
 
+        /*
+        Narrative: Returns the name of the player's weapon.
+        Pre-condition: Weapon class has been properly linked
+        Post-condition: The weapon's name is returned. If the player did not have 
+        a weapon an empty string is returned.
+        */
         string WeaponName() const;
 
+        /*
+        Narrative: The player's weapon skill for their current weapon is returned
+        Pre-condition: Weapon class has been properly linked
+        Post-condition: Current weapon skill has been returned
+        */
         int WeaponSkill() const;
 
+        /*
+        Narrative: The player's weapon is returned. If the player is holding a 
+        weapon their weapon pointer is set to NULL.
+        Pre-condition: None
+        Post-condition: Weapon has been set to NULL if the player was holding 
+        one and previous weapon has been returned
+        */
         Weapon* DropWeapon();
 
+        /*
+        Narrative: Returns whether or not the player is holding a weapon
+        Pre-condition: None
+        Post-condition: Bool representing whether or not the player is holding 
+        a weapon is returned
+        */
         bool HasWeapon() const;
 
+        /*
+        Narrative: An active human player recieves the weapon. If they had no 
+        weapon skill for this weapon they now have one weapon skill point for it.
+        Pre-condition: None
+        Post-condition: The player now has the given weapon and their previous 
+        weapon has been returned.
+        */
         Weapon* GrabWeapon(Weapon* weapon);
 
+        /*
+        Narrative: An amount is added to the player's skill for their current weapon
+        Pre-condition: None
+        Post-condition: The weapon skill improvement amount has been added 
+        */
         bool ImprovedSkill(int improvement);
 
-        PlayerClass& operator=(const PlayerClass &p); 
-
+        /*
+        Narrative: Converts a string to all uppercase
+        Pre-condition: None
+        Post-condition: The string has been made all uppercase
+        */
         string MakeUpper(string str) const;
 
+        /*
+        Narrative: Compares the name of a given player and this player to see 
+        if this player's name is equal to the given player's name
+        Pre-condition: None
+        Post-condition: Bool representing whether or not this player's name is 
+        equal to the given player's name is returned
+        */
         bool operator==(const PlayerClass &p) const;
 
+        /*
+        Narrative: Compares the name of a given player and this player to see 
+        if this player's name is not equal to the given player's name
+        Pre-condition: None
+        Post-condition: Bool representing whether or not this player's name is 
+        not equal to the given player's name is returned
+        */
         bool operator!=(const PlayerClass &p) const;
 
+        /*
+        Narrative: Compares the name of a given player and this player to see 
+        if this player's name is less than or equal to to the given player's name
+        Pre-condition: None
+        Post-condition: Bool representing whether or not this player's name is 
+        less than or equal to the given player's name is returned
+        */
         bool operator<=(const PlayerClass &p) const;
 
+        /*
+        Narrative: Compares the name of a given player and this player to see 
+        if this player's name is less than the given player's name
+        Pre-condition: None
+        Post-condition: Bool representing whether or not this player's name is 
+        less than the given player's name is returned
+        */
         bool operator<(const PlayerClass &p) const;
 
+        /*
+        Narrative: Compares the name of a given player and this player to see 
+        if this player's name is greater than or equal to the given player's name
+        Pre-condition: None
+        Post-condition: Bool representing whether or not this player's name is 
+        greather than or equal to the given player's name is returned
+        */
         bool operator>=(const PlayerClass &p) const;
 
+        /*
+        Narrative: Compares the name of a given player and this player to see 
+        if this player's name is greater than the given player's name
+        Pre-condition: None
+        Post-condition: Bool representing whether or not this player's name is 
+        greather than the given player's name is returned
+        */
         bool operator>(const PlayerClass &p) const;
 
         /*

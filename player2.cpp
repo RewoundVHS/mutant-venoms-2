@@ -28,44 +28,43 @@ const int PlayerClass::INIT_WPN_SKILL[Weapon::NUM_DIFF_WEAPONS][NUM_HUMAN_TYPES]
 //   Hu  Sc
     { 0,  0},   // GRENADE
     { 0,  0},   // HVYWPN
-    { 0, 10},   // PISTOL
-    { 5,  0}};  // RIFLE
+    { 0, 11},   // PISTOL
+    { 6,  0}};  // RIFLE
 
 const int PlayerClass::IMPACT[MAX_2D6][MAX_PWR] = {   
 //                  Power Rating
 //    0   1   2   3   4   5   6   7   8   9  10  11  12    Die Roll
-    { 0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0},  // 0
-    { 0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0},  // 1
-    { 0,  0,  0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10},  // 2
-    { 0,  0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10,  w},  // 3
-    { 0,  0,  2,  3,  4,  5,  6,  7,  8,  9, 10,  w,  w},  // 4
-    { 0,  0,  3,  4,  5,  6,  7,  8,  9, 10,  w,  w,  w},  // 5
-    { 0,  0,  4,  5,  6,  7,  8,  9, 10,  w,  w,  w,  w},  // 6
-    { 0,  0,  5,  6,  7,  8,  9, 10,  w,  w,  w,  w,  w},  // 7
-    { 0,  0,  6,  7,  8,  9, 10,  w,  w,  w,  w,  w,  w},  // 8
-    { 0,  0,  7,  8,  9, 10,  w,  w,  w,  w,  w,  w,  w},  // 9
-    { 0,  0,  8,  9, 10,  w,  w,  w,  w,  w,  w,  w,  w},  // 10
-    { 0,  0,  9, 10,  w,  w,  w,  w,  w,  w,  w,  w,  w},  // 11
-    { 0,  0, 10,  w,  w,  w,  w,  w,  w,  w,  w,  w,  w}}; // 12
+    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},  // 0
+    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},  // 1
+    {-1, -1,  0,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10},  // 2
+    {-1, -1,  1,  2,  3,  4,  5,  6,  7,  8,  9, 10,  w},  // 3
+    {-1, -1,  2,  3,  4,  5,  6,  7,  8,  9, 10,  w,  w},  // 4
+    {-1, -1,  3,  4,  5,  6,  7,  8,  9, 10,  w,  w,  w},  // 5
+    {-1, -1,  4,  5,  6,  7,  8,  9, 10,  w,  w,  w,  w},  // 6
+    {-1, -1,  5,  6,  7,  8,  9, 10,  w,  w,  w,  w,  w},  // 7
+    {-1, -1,  6,  7,  8,  9, 10,  w,  w,  w,  w,  w,  w},  // 8
+    {-1, -1,  7,  8,  9, 10,  w,  w,  w,  w,  w,  w,  w},  // 9
+    {-1, -1,  8,  9, 10,  w,  w,  w,  w,  w,  w,  w,  w},  // 10
+    {-1, -1,  9, 10,  w,  w,  w,  w,  w,  w,  w,  w,  w},  // 11
+    {-1, -1, 10,  w,  w,  w,  w,  w,  w,  w,  w,  w,  w}}; // 12
 
 const int PlayerClass::CRITICAL_WOUND[MAX_2D6][MAX_WILL] = {
 //                  Willpower Rating           
 //    0   1   2   3   4   5   6   7   8   9  10  11  12    Die Roll
-    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},  // 0
-    { k, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},  // 1
-    { k,  k, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},  // 2
-    { k,  k,  k, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},  // 3
-    { k,  k,  k,  k, -1, -1, -1, -1, -1, -1, -1, -1, -1},  // 4
-    { k,  k,  k,  k,  k, -1, -1, -1, -1, -1, -1, -1, -1},  // 5
-    { k,  k,  k,  k,  k,  k, -1, -1, -1, -1, -1, -1, -1},  // 6
-    { k,  k,  k,  k,  k,  k,  k, -1, -1, -1, -1, -1, -1},  // 7 
-    { k,  k,  k,  k,  k,  k,  k,  k, -1, -1, -1, -1, -1},  // 8  
-    { k,  k,  k,  k,  k,  k,  k,  k,  k, -1, -1, -1, -1},  // 9  
-    { k,  k,  k,  k,  k,  k,  k,  k,  k,  k, -1, -1, -1},  // 10 
-    { k,  k,  k,  k,  k,  k,  k,  k,  k,  k,  k, -1, -1},  // 11
-    { k,  k,  k,  k,  k,  k,  k,  k,  k,  k,  k,  k, -1}}; // 12
+    {-2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2},  // 0
+    {-2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2},  // 1
+    {-2, -2,  k,  k,  k,  k,  k,  k,  k,  k,  k,  k, -1},  // 2
+    {-2, -2,  k,  k,  k,  k,  k,  k,  k,  k,  k, -1, -1},  // 3
+    {-2, -2,  k,  k,  k,  k,  k,  k,  k,  k, -1, -1, -1},  // 4
+    {-2, -2,  k,  k,  k,  k,  k,  k,  k, -1, -1, -1, -1},  // 6
+    {-2, -2,  k,  k,  k,  k,  k,  k, -1, -1, -1, -1, -1},  // 7 
+    {-2, -2,  k,  k,  k,  k,  k, -1, -1, -1, -1, -1, -1},  // 8  
+    {-2, -2,  k,  k,  k,  k, -1, -1, -1, -1, -1, -1, -1},  // 9  
+    {-2, -2,  k,  k,  k, -1, -1, -1, -1, -1, -1, -1, -1},  // 10 
+    {-2, -2,  k,  k, -1, -1, -1, -1, -1, -1, -1, -1, -1},  // 11
+    {-2, -2,  k, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1}}; // 12
 
-PlayerClass::PlayerClass() {
+PlayerClass::PlayerClass(): playerWeapon(NULL) {
     name = DEFAULT_NAME;
     type = DEFAULT_TYPE;
 
@@ -74,22 +73,26 @@ PlayerClass::PlayerClass() {
     }
 
     for (int i=0; i<Weapon::NUM_DIFF_WEAPONS; i++) {
-         allWeaponSkill[i] = INIT_WPN_SKILL[i][type];
+        allWeaponSkill[i] = INIT_WPN_SKILL[i][type];
     }
-    // GrabWeapon(DEFAULT_HUNTER_WEAPON);
 }
 
-PlayerClass::PlayerClass(string initName, PlayerType initType) {
+PlayerClass::PlayerClass(string initName, PlayerType initType): playerWeapon(NULL) {
     if (initName.size() <= 0)
         name = DEFAULT_NAME;
     else {
         name = initName;
+        string trimmed;
         stringstream ss(name);
         string word;
         while (ss >> word) {
-            name += (word + " ");
+            trimmed += (word + " ");
         }
-        name = name.substr(0, name.size()-1);
+
+        trimmed = trimmed.substr(0, trimmed.size()-1);
+        if (trimmed.length() > 10)
+            trimmed = trimmed.substr(0, 10);
+        name = trimmed;
     }
     if (initType >= HUNTER && initType < MAX_TYPES)
         type = initType;
@@ -104,18 +107,43 @@ PlayerClass::PlayerClass(string initName, PlayerType initType) {
         for (int i=0; i<Weapon::NUM_DIFF_WEAPONS; i++) {
              allWeaponSkill[i] = INIT_WPN_SKILL[i][type];
         }
-        
-        switch (type) { 
-            case HUNTER:
-                // GrabWeapon(DEFAULT_HUNTER_WEAPON);
-                break;
-            case SCAVENGER:
-                // GrabWeapon(DEFAULT_SCAVENGER_WEAPON);
-                break;
-        }
-    } else {
+    } 
+}
+
+PlayerClass::PlayerClass(const PlayerClass &p): playerWeapon(NULL) {
+    CopyIntoMe(p);    
+}
+
+PlayerClass& PlayerClass::operator=(const PlayerClass &p) {
+    if (this != &p)
+        CopyIntoMe(p);
+    return *this;
+}
+
+
+void PlayerClass::CopyIntoMe(const PlayerClass &p) {
+    if (HasWeapon()) {
+        delete playerWeapon;
         playerWeapon = NULL;
     }
+
+    name = p.Name();
+    type = p.Type();
+
+    for (int i=0; i<MAX_STATS; i++) {
+        playerStats[i] = p.playerStats[i];
+    }
+
+    for (int i=0; i<Weapon::NUM_DIFF_WEAPONS; i++) {
+         allWeaponSkill[i] = p.allWeaponSkill[i];
+    }
+    playerWeapon = new Weapon(*p.playerWeapon);
+
+}
+
+PlayerClass::~PlayerClass() {
+    delete playerWeapon;
+    playerWeapon = NULL;
 }
 
 string PlayerClass::Name() const {
@@ -376,7 +404,6 @@ bool PlayerClass::SetDir(DirType newDir) {
     return set;
 }
 
-// Needs modified to include weapon data
 void PlayerClass::Write(ostream& out) const {
     out << TypeStr() << '#';
     if (IsActive())
@@ -386,10 +413,24 @@ void PlayerClass::Write(ostream& out) const {
     out << '#' << Name() << '#' << '(' << Row() << ',' << Col() << ',' << Dir()
     << ")#" << Health() << '#' << WillPower() << '#' << Power() << '#' 
     << CurrentSpeed() << '#' << Momentum() << '#' << playerStats[DAMAGE_ROLLS] 
-    << 'D' << playerStats[ROLL_FACES] << '#' << Defense() << '#' << endl;
+    << 'D' << playerStats[ROLL_FACES] << '#' << Defense() << '#';
+    if (Venom())
+        out << endl;
+    if (Human()) {
+        if (HasWeapon()) {
+            out << WeaponName() << '#' <<
+            playerStats[CUR_WPN_SKILL] << '#' << endl << '\t';
+        } else
+            out << endl << '\t';
+        for (int i=0; i<Weapon::NUM_DIFF_WEAPONS; i++) {
+            if (allWeaponSkill[i] > 0) {
+                out << Weapon::WpnTypeToStr(Weapon::WpnType(i)) << '#' << allWeaponSkill[i] << '#';
+            }
+        }
+        out << endl;
+    }
 }
 
-// Might need modified along with Write
 ostream& operator<<(ostream& out, const PlayerClass *p) {
     if (p != NULL)
         p->Write(out);
@@ -397,16 +438,19 @@ ostream& operator<<(ostream& out, const PlayerClass *p) {
 }
 
 int PlayerClass::UpdateDefense(int amount) {
-    if (IsActive())
+    if (IsActive()) {
         playerStats[DEFENSE] += amount;
-    if(playerStats[DEFENSE] < 0);
-        playerStats[DEFENSE] = 0;
-
+        if (playerStats[DEFENSE] < 0)
+            playerStats[DEFENSE] = 0;
+    }
     return playerStats[DEFENSE];
 }
 
 int PlayerClass::HitScore() const {
-    return Dice::Roll(name, GameSpace::HITSCORE, 2, 6); 
+    int score = 0;
+    if (IsActive())
+        score = Dice::Roll(name, GameSpace::HITSCORE, 2, 6); 
+    return score;
 }
 
 int PlayerClass::HitDamage() const {
@@ -440,7 +484,7 @@ int PlayerClass::Impact() const{
 }
 
 bool PlayerClass::CriticalWound() {
-    int damage =10;
+    int damage = 10;
     int willDmg = 1;
     int roll;
     int slowed = playerStats[CUR_SPEED] - playerStats[CUR_SPEED]/2 ;
@@ -450,11 +494,10 @@ bool PlayerClass::CriticalWound() {
         Wounded(damage);
         SlowDown(slowed);
         if (IsAlive()) {
-            // Is it appropriate to have the floating 2 and 6 here?
             roll = Dice::Roll(name, GameSpace::WOUND, 2, 6);
             crit = CRITICAL_WOUND[roll][playerStats[WILLPOWER]];
 
-            if (crit = -1)
+            if (crit == -1)
                 WillDamage(willDmg);
             else
                 MakeDead();
@@ -464,7 +507,11 @@ bool PlayerClass::CriticalWound() {
 }
 
 string PlayerClass::WeaponName() const {
-    return playerWeapon->WeaponName();
+    string weaponStr = "";
+    if (playerWeapon != NULL)
+        weaponStr = playerWeapon->WeaponName();
+
+    return weaponStr;
 }
 
 int PlayerClass::WeaponSkill() const {
@@ -475,9 +522,9 @@ int PlayerClass::WeaponSkill() const {
 }
 
 Weapon* PlayerClass::DropWeapon() {
-    Weapon* dropped;
+    Weapon* dropped = NULL;
 
-    if (IsActive()) {
+    if (IsActive() && HasWeapon()) {
         dropped = playerWeapon;
         playerWeapon = NULL;
     }
@@ -489,21 +536,24 @@ bool PlayerClass::HasWeapon() const {
 }
 
 Weapon* PlayerClass::GrabWeapon(Weapon* weapon) {
-    Weapon* oldWeapon = playerWeapon;
+    Weapon* oldWeapon = weapon;
 
     if (IsActive() && Human()) {
-        playerWeapon = weapon;
-        if (allWeaponSkill[playerWeapon->WeaponType()] = 0) {
-            allWeaponSkill[playerWeapon->WeaponType()] = 1;
-            playerStats[CUR_WPN_SKILL] = allWeaponSkill[playerWeapon->WeaponType()];
+        if (weapon != NULL) {
+            oldWeapon = DropWeapon();
+            playerWeapon = weapon;
+            playerStats[CUR_WPN_SKILL] = allWeaponSkill[weapon->WeaponType()];
+            if (WeaponSkill() == 0) {
+                ImprovedSkill(1);
+            }
         }
-    }
+    } 
     return oldWeapon;
 }
 
 bool PlayerClass::ImprovedSkill(int improvement) {    
     bool improved = false;
-    if (IsActive() && HasWeapon() && improvement >= 0) {
+    if (IsActive() && HasWeapon() && improvement > 0) {
         allWeaponSkill[playerWeapon->WeaponType()] += improvement; 
         playerStats[CUR_WPN_SKILL] = allWeaponSkill[playerWeapon->WeaponType()];
         improved = true;
@@ -518,43 +568,25 @@ string PlayerClass::MakeUpper(string str) const {
 }
 
 bool PlayerClass::operator==(const PlayerClass &p) const {
-    string pUpper = MakeUpper(p.Name());
-    string thisUpper = MakeUpper(Name());
-
-    return (thisUpper == pUpper);   
+    return (MakeUpper(Name()) == MakeUpper(p.Name()));   
 }
 
 bool PlayerClass::operator!=(const PlayerClass &p) const {
-    string pUpper = MakeUpper(p.Name());
-    string thisUpper = MakeUpper(Name());
-
-    return (thisUpper != pUpper);   
+    return (MakeUpper(Name()) != MakeUpper(p.Name()));   
 }
 
 bool PlayerClass::operator<=(const PlayerClass &p) const {
-    string pUpper = MakeUpper(p.Name());
-    string thisUpper = MakeUpper(Name());
-
-    return (thisUpper <= pUpper);   
+    return (MakeUpper(Name()) <= MakeUpper(p.Name()));   
 }
 
 bool PlayerClass::operator<(const PlayerClass &p) const {
-    string pUpper = MakeUpper(p.Name());
-    string thisUpper = MakeUpper(Name());
-
-    return (thisUpper < pUpper);   
+    return (MakeUpper(Name()) < MakeUpper(p.Name()));   
 }
 
 bool PlayerClass::operator>=(const PlayerClass &p) const {
-    string pUpper = MakeUpper(p.Name());
-    string thisUpper = MakeUpper(Name());
-
-    return (thisUpper >= pUpper);   
+    return (MakeUpper(Name()) >= MakeUpper(p.Name()));   
 }
 
 bool PlayerClass::operator>(const PlayerClass &p) const {
-    string pUpper = MakeUpper(p.Name());
-    string thisUpper = MakeUpper(Name());
-
-    return (thisUpper > pUpper);   
+    return (MakeUpper(Name()) > MakeUpper(p.Name()));   
 }
