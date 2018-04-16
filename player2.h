@@ -100,6 +100,10 @@ class PlayerClass {
         */
         ~PlayerClass();
 
+        string ValidateName(string newName);
+
+        PlayerType ValidateType(int newType);
+
         /*
         Narrative: Returns the player's name
         Pre-condition: Player's name has been initialized
@@ -528,11 +532,11 @@ class PlayerClass {
         // Array of the player's weapon skill values
         int allWeaponSkill[Weapon::NUM_DIFF_WEAPONS];
 
-        string name;    // Player's name
-        int type;       // Player's type
-        DirType dir;    // Player's direction
-        bool human;     // Whether or not the player is a human
-        bool venom;     // Whether or not the player is a venom
+        const string name;    // Player's name
+        const PlayerType type;       // Player's type
+        DirType dir;          // Player's direction
+        bool human;           // Whether or not the player is a human
+        bool venom;           // Whether or not the player is a venom
         Weapon* playerWeapon;
 
 };

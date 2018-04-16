@@ -64,9 +64,8 @@ const int PlayerClass::CRITICAL_WOUND[MAX_2D6][MAX_WILL] = {
     {-2, -2,  k,  k, -1, -1, -1, -1, -1, -1, -1, -1, -1},  // 11
     {-2, -2,  k, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1}}; // 12
 
-PlayerClass::PlayerClass(): playerWeapon(NULL) {
-    name = DEFAULT_NAME;
-    type = DEFAULT_TYPE;
+PlayerClass::PlayerClass(): 
+    playerWeapon(NULL), name(DEFAULT_NAME), type(DEFAULT_TYPE) {
 
     for (int i=0; i<MAX_STATS; i++) {
         playerStats[i] = STATS[i][type];
@@ -77,27 +76,8 @@ PlayerClass::PlayerClass(): playerWeapon(NULL) {
     }
 }
 
-PlayerClass::PlayerClass(string initName, PlayerType initType): playerWeapon(NULL) {
-    if (initName.size() <= 0)
-        name = DEFAULT_NAME;
-    else {
-        name = initName;
-        string trimmed;
-        stringstream ss(name);
-        string word;
-        while (ss >> word) {
-            trimmed += (word + " ");
-        }
-
-        trimmed = trimmed.substr(0, trimmed.size()-1);
-        if (trimmed.length() > 10)
-            trimmed = trimmed.substr(0, 10);
-        name = trimmed;
-    }
-    if (initType >= HUNTER && initType < MAX_TYPES)
-        type = initType;
-    else
-        type = DEFAULT_TYPE;
+PlayerClass::PlayerClass(string initName, PlayerType initType): 
+    name(ValidateName(initName)), type(ValidateType(initType)), playerWeapon(NULL) {
 
     for (int i=0; i<MAX_STATS; i++) {
         playerStats[i] = STATS[i][type];
@@ -110,7 +90,8 @@ PlayerClass::PlayerClass(string initName, PlayerType initType): playerWeapon(NUL
     } 
 }
 
-PlayerClass::PlayerClass(const PlayerClass &p): playerWeapon(NULL) {
+PlayerClass::PlayerClass(const PlayerClass &p): 
+    playerWeapon(NULL), name(ValidateName(p.name)), type(ValidateType(p.type)) {
     CopyIntoMe(p);    
 }
 
@@ -120,15 +101,14 @@ PlayerClass& PlayerClass::operator=(const PlayerClass &p) {
     return *this;
 }
 
-
 void PlayerClass::CopyIntoMe(const PlayerClass &p) {
     if (HasWeapon()) {
         delete playerWeapon;
         playerWeapon = NULL;
     }
 
-    name = p.Name();
-    type = p.Type();
+    *const_cast <string*> (&name) = p.name; 
+    *const_cast <PlayerType*> (&type) = p.type; 
 
     for (int i=0; i<MAX_STATS; i++) {
         playerStats[i] = p.playerStats[i];
@@ -137,13 +117,41 @@ void PlayerClass::CopyIntoMe(const PlayerClass &p) {
     for (int i=0; i<Weapon::NUM_DIFF_WEAPONS; i++) {
          allWeaponSkill[i] = p.allWeaponSkill[i];
     }
-    playerWeapon = new Weapon(*p.playerWeapon);
-
+    if (p.playerWeapon != NULL)
+        playerWeapon = new Weapon(*p.playerWeapon);
 }
 
 PlayerClass::~PlayerClass() {
     delete playerWeapon;
     playerWeapon = NULL;
+}
+
+string PlayerClass::ValidateName(string newName) {
+    if (newName.size() <= 0)
+        newName = DEFAULT_NAME;
+    else {
+        string trimmed;
+        stringstream ss(newName);
+        string word;
+        while (ss >> word) {
+            trimmed += (word + " ");
+        }
+
+        trimmed = trimmed.substr(0, trimmed.size()-1);
+        if (trimmed.length() > 10)
+            trimmed = trimmed.substr(0, 10);
+        newName = trimmed;
+    }
+    return newName;
+}
+
+PlayerClass::PlayerType PlayerClass::ValidateType(int newType) {
+    PlayerType t;
+    if (newType >= HUNTER && newType < MAX_TYPES)
+        t = PlayerClass::PlayerType(newType);
+    else
+        t = DEFAULT_TYPE;
+    return t;
 }
 
 string PlayerClass::Name() const {
